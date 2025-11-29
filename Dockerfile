@@ -1,15 +1,14 @@
-FROM node:alpine3.20
+FROM node:18-alpine
 
-WORKDIR /tmp
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --production
 
 COPY . .
 
-EXPOSE 3000/tcp
-
-RUN apk update && apk upgrade &&\
-    apk add --no-cache openssl curl gcompat iproute2 coreutils &&\
-    apk add --no-cache bash &&\
-    chmod +x index.js &&\
-    npm install
+ENV PORT=3000
+ENV SERVER_PORT=3000
+ENV SUB_PATH=1029
 
 CMD ["node", "index.js"]
